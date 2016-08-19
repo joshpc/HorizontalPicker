@@ -20,7 +20,7 @@ protocol HPCollectionViewCellDelegate {
 
 class HPCollectionViewCell: UICollectionViewCell {
     
-    private var textColor: UIColor = UIColor.lightGray
+    fileprivate var textColor: UIColor = UIColor.lightGray
     
     var text: String? {
         didSet {

@@ -19,7 +19,7 @@ class HPCollectionVC: UICollectionViewController, UICollectionViewDelegateFlowLa
     var provider: HPCollectionVCProvider?
     
     var maxElementWidth: CGFloat = 0.0
-    var font: UIFont             = UIFont.preferredFont(forTextStyle: UIFontTextStyleTitle1)
+    var font: UIFont             = UIFont.preferredFont(forTextStyle: .title1)
     var useTwoLineMode           = true
     var textColor                = UIColor.lightGray
     var selectedCellIndexPath    = IndexPath(item: 0, section: 0) {
@@ -103,7 +103,7 @@ class HPCollectionVC: UICollectionViewController, UICollectionViewDelegateFlowLa
         return frame.size
     }
     
-    private func configureCollectionViewCell (_ cell: HPCollectionViewCell, atIndexPath indexPath: IndexPath) {
+    fileprivate func configureCollectionViewCell (_ cell: HPCollectionViewCell, atIndexPath indexPath: IndexPath) {
         if let provider = provider {
             cell.text = provider.collectionViewController(self, titleForRow: (indexPath as NSIndexPath).row)
             cell.isSelected = selectedCellIndexPath == indexPath
@@ -111,7 +111,7 @@ class HPCollectionVC: UICollectionViewController, UICollectionViewDelegateFlowLa
         }
     }
     
-    private func scrollToIndex (_ index: Int, animated: Bool) {
+    fileprivate func scrollToIndex (_ index: Int, animated: Bool) {
         let indexPath = IndexPath(item: index, section: 0)
         guard let cv = collectionView, let attributes = cv.layoutAttributesForItem(at: indexPath) else {
             return
@@ -122,7 +122,7 @@ class HPCollectionVC: UICollectionViewController, UICollectionViewDelegateFlowLa
         cv.setContentOffset(offset, animated: animated)
     }
     
-    private func changeSelectionForCellAtIndexPath (_ indexPath: IndexPath, collectionView: UICollectionView) {
+    fileprivate func changeSelectionForCellAtIndexPath (_ indexPath: IndexPath, collectionView: UICollectionView) {
         HorizontalPickerView.delay(0.1) { [unowned self] () -> () in
             collectionView.selectItem(at: indexPath, animated: true, scrollPosition: .centeredHorizontally)
             self.selectedCellIndexPath = indexPath

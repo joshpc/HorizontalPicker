@@ -34,12 +34,12 @@ public protocol HorizontalPickerViewDataSource {
 
 /** A similar to UIPicker but horizontal picker view.
 */
-public class HorizontalPickerView: UIView {
+open class HorizontalPickerView: UIView {
     
     // MARK: - Public API
     
-    public var dataSource: HorizontalPickerViewDataSource?
-    public var delegate: HorizontalPickerViewDelegate?
+    open var dataSource: HorizontalPickerViewDataSource?
+    open var delegate: HorizontalPickerViewDelegate?
     
     override public init(frame: CGRect) {
         super.init(frame: frame)
@@ -51,7 +51,7 @@ public class HorizontalPickerView: UIView {
         setUp()
     }
     
-    public override func layoutSubviews() {
+    open override func layoutSubviews() {
         super.layoutSubviews()
         
         if dataSource != nil && delegate != nil {
@@ -90,29 +90,29 @@ public class HorizontalPickerView: UIView {
     
     // MARK:
     
-    public func selectedRow () -> Int {
+    open func selectedRow () -> Int {
         return collectionController.selectedCellIndexPath.row
     }
     
-    public func selectRow (_ rowIndex: Int, animated: Bool) {
+    open func selectRow (_ rowIndex: Int, animated: Bool) {
         collectionController.selectRowAtIndex(rowIndex, animated: animated)
     }
     
-    public func reloadAll () {
+    open func reloadAll () {
         collectionController.collectionView?.reloadData()
     }
     
     // MARK: - Helper
     
-    static func delay (_ duration: TimeInterval, completion:()->() ) {
+    static func delay (_ duration: TimeInterval, completion:@escaping ()->() ) {
         DispatchQueue.main.asyncAfter( deadline: DispatchTime.now() + Double(Int64(duration * Double(NSEC_PER_SEC))) / Double(NSEC_PER_SEC), execute: completion)
     }
     
     // MARK: - Private Interface
     
-    private var isInitialized = false
+    fileprivate var isInitialized = false
     
-    private lazy var shapeLayer: CAShapeLayer = {
+    fileprivate lazy var shapeLayer: CAShapeLayer = {
         let shapeLayer           = CAShapeLayer()
         shapeLayer.frame         = self.bounds
         shapeLayer.contentsScale = UIScreen.main.scale
@@ -120,12 +120,12 @@ public class HorizontalPickerView: UIView {
         return shapeLayer
     }()
     
-    private lazy var collectionController: HPCollectionVC = {
+    fileprivate lazy var collectionController: HPCollectionVC = {
         let layout = HPCollectionViewFlowlayout()
         let collectionController = HPCollectionVC(collectionViewLayout: layout)
         collectionController.provider               = self
         collectionController.maxElementWidth        = self.bounds.width * HorizontalPickerViewConstants.maxLabelWidthFactor
-        collectionController.font                   = self.delegate?.textFontForHorizontalPickerView?(self) ?? UIFont.preferredFont(forTextStyle: UIFontTextStyleBody)
+        collectionController.font                   = self.delegate?.textFontForHorizontalPickerView?(self) ?? UIFont.preferredFont(forTextStyle: UIFontTextStyle.body)
         collectionController.textColor              = self.delegate?.textColorForHorizontalPickerView?(self) ?? UIColor.lightGray
         collectionController.useTwoLineMode         = self.delegate?.useTwoLineModeForHorizontalPickerView?(self) ?? false
         collectionController.collectionView?.register(HPCollectionViewCell.self, forCellWithReuseIdentifier: HPCollectionViewCellConstants.reuseIdentifier)
@@ -136,11 +136,11 @@ public class HorizontalPickerView: UIView {
         return collectionController
     }()
     
-    private func setUp () {
+    fileprivate func setUp () {
         autoresizingMask = [.flexibleWidth, .flexibleLeftMargin, .flexibleRightMargin]
     }
     
-    private func shapePathForFrame(_ frame: CGRect) -> UIBezierPath {
+    fileprivate func shapePathForFrame(_ frame: CGRect) -> UIBezierPath {
         return UIBezierPath(roundedRect: frame, byRoundingCorners: .allCorners, cornerRadii: HorizontalPickerViewConstants.pathCornerRadii)
     }
 }
